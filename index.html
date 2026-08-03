@@ -4,73 +4,73 @@
 <meta charset="utf-8">
 <title>JA Routine</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F3F5F1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#141A15" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" id="themeColor" content="#F3F5F1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
+  /* One accent hue drives the accent AND the tint of every neutral, so picking
+     a colour in Settings re-themes the whole app rather than just the buttons.
+     Chosen colours set --accent-h / --accent-s; the light and dark ramps below
+     turn those into concrete tokens. */
   :root {
-    --ground: #F3F5F1;
-    --card: #FFFFFF;
-    --ink: #1E2A21;
-    --ink-soft: #5C6A5F;
-    --line: #DDE4DC;
-    --accent: #3B7A57;
-    --accent-soft: #E3EEE7;
-    --morning: #3B7A57;
+    --accent-h: 148;
+    --accent-s: 34%;
+  }
+
+  /* Time-of-day markers stay fixed: they encode sunrise / midday / dusk, which
+     shouldn't drift when the user picks a different accent. */
+  :root {
+    --morning: #3E8C61;
     --afternoon: #DD9A33;
     --evening: #5C6BA4;
-    --danger: #B4533A;
-    --ring-track: #E2E8E1;
-    --shadow: 0 1px 3px rgba(30, 42, 33, 0.07), 0 6px 18px rgba(30, 42, 33, 0.05);
   }
+
+  :root, :root[data-theme="light"] {
+    --ground: hsl(var(--accent-h) 14% 96%);
+    --card: hsl(var(--accent-h) 30% 99.5%);
+    --ink: hsl(var(--accent-h) 20% 13%);
+    --ink-soft: hsl(var(--accent-h) 10% 40%);
+    --line: hsl(var(--accent-h) 13% 88%);
+    --ring-track: hsl(var(--accent-h) 12% 90%);
+    --accent: hsl(var(--accent-h) var(--accent-s) 35%);
+    --accent-soft: hsl(var(--accent-h) calc(var(--accent-s) * 0.62) 92%);
+    --danger: hsl(14 48% 46%);
+    --shadow: 0 1px 3px hsl(var(--accent-h) 20% 13% / 0.07), 0 6px 18px hsl(var(--accent-h) 20% 13% / 0.05);
+  }
+
   @media (prefers-color-scheme: dark) {
-    :root {
-      --ground: #141A15;
-      --card: #1D2620;
-      --ink: #E7ECE6;
-      --ink-soft: #93A296;
-      --line: #2C372F;
-      --accent: #5FA97F;
-      --accent-soft: #23342A;
-      --morning: #5FA97F;
+    :root:not([data-theme="light"]) {
+      --ground: hsl(var(--accent-h) 14% 9%);
+      --card: hsl(var(--accent-h) 13% 14%);
+      --ink: hsl(var(--accent-h) 12% 91%);
+      --ink-soft: hsl(var(--accent-h) 9% 61%);
+      --line: hsl(var(--accent-h) 12% 21%);
+      --ring-track: hsl(var(--accent-h) 12% 21%);
+      --accent: hsl(var(--accent-h) calc(var(--accent-s) * 0.92) 53%);
+      --accent-soft: hsl(var(--accent-h) calc(var(--accent-s) * 0.55) 17%);
+      --danger: hsl(14 52% 61%);
+      --morning: #63AD83;
       --afternoon: #E0AA55;
       --evening: #8794C9;
-      --danger: #D07A63;
-      --ring-track: #2C372F;
       --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.25);
     }
   }
+
   :root[data-theme="dark"] {
-    --ground: #141A15;
-    --card: #1D2620;
-    --ink: #E7ECE6;
-    --ink-soft: #93A296;
-    --line: #2C372F;
-    --accent: #5FA97F;
-    --accent-soft: #23342A;
-    --morning: #5FA97F;
+    --ground: hsl(var(--accent-h) 14% 9%);
+    --card: hsl(var(--accent-h) 13% 14%);
+    --ink: hsl(var(--accent-h) 12% 91%);
+    --ink-soft: hsl(var(--accent-h) 9% 61%);
+    --line: hsl(var(--accent-h) 12% 21%);
+    --ring-track: hsl(var(--accent-h) 12% 21%);
+    --accent: hsl(var(--accent-h) calc(var(--accent-s) * 0.92) 53%);
+    --accent-soft: hsl(var(--accent-h) calc(var(--accent-s) * 0.55) 17%);
+    --danger: hsl(14 52% 61%);
+    --morning: #63AD83;
     --afternoon: #E0AA55;
     --evening: #8794C9;
-    --danger: #D07A63;
-    --ring-track: #2C372F;
     --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.25);
-  }
-  :root[data-theme="light"] {
-    --ground: #F3F5F1;
-    --card: #FFFFFF;
-    --ink: #1E2A21;
-    --ink-soft: #5C6A5F;
-    --line: #DDE4DC;
-    --accent: #3B7A57;
-    --accent-soft: #E3EEE7;
-    --morning: #3B7A57;
-    --afternoon: #DD9A33;
-    --evening: #5C6BA4;
-    --danger: #B4533A;
-    --ring-track: #E2E8E1;
-    --shadow: 0 1px 3px rgba(30, 42, 33, 0.07), 0 6px 18px rgba(30, 42, 33, 0.05);
   }
 
   * { box-sizing: border-box; }
@@ -489,6 +489,188 @@
   }
   .push-code[hidden] { display: none; }
 
+  /* ---------- Brand bar ---------- */
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 0 2px;
+  }
+  .brand {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .gear {
+    flex: none;
+    display: grid;
+    place-content: center;
+    width: 36px;
+    height: 36px;
+    margin-right: -7px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .gear:hover { background: var(--accent-soft); color: var(--accent); }
+  .gear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Settings sheet ---------- */
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: var(--ground);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    animation: sheet-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .sheet[hidden] { display: none; }
+  @keyframes sheet-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .sheet-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+  }
+  .sheet-head h2 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.15rem;
+  }
+  .sheet-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 0.87rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 6px 4px 0;
+  }
+  .sheet-back:focus-visible, .set-select:focus-visible,
+  .seg button:focus-visible, .swatch:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .sheet-body {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 4px 18px calc(28px + env(safe-area-inset-bottom));
+  }
+  .set-group {
+    margin-top: 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 6px 15px 14px;
+  }
+  .set-group h3 {
+    margin: 12px 0 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .set-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+  }
+  .set-row.stack { flex-direction: column; align-items: stretch; gap: 10px; }
+  .set-label { font-size: 0.93rem; }
+  .set-hint {
+    margin: 0;
+    padding: 4px 0 2px;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .set-foot {
+    margin: 18px 2px 0;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+  }
+
+  .seg { display: flex; flex: none; gap: 4px; }
+  .seg button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .seg button[aria-pressed="true"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+  .swatch {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: transparent;
+    padding: 3px;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    transition: border-color 0.15s, transform 0.12s;
+  }
+  .swatch:active { transform: scale(0.92); }
+  .swatch i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 50%;
+    background: hsl(var(--sw-h) var(--sw-s) 42%);
+  }
+  .swatch[aria-pressed="true"] { border-color: hsl(var(--sw-h) var(--sw-s) 45%); }
+
+  .set-select {
+    flex: none;
+    max-width: 58%;
+    border: 1px solid var(--line);
+    background: var(--ground);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+
   /* ---------- Add bar ---------- */
   .add-bar {
     position: fixed;
@@ -555,6 +737,16 @@
 <body>
 
 <div class="app">
+  <div class="brandbar">
+    <span class="brand">JA Routine</span>
+    <button class="gear" id="openSettings" type="button" aria-label="Settings">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+        <circle cx="12" cy="12" r="3.1"/>
+        <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>
+      </svg>
+    </button>
+  </div>
+
   <header class="day">
     <div class="day-text">
       <h1 id="greeting">Good morning</h1>
@@ -581,7 +773,7 @@
 
   <section class="week" aria-label="This week's progress">
     <div class="week-head">
-      <h2>This week</h2>
+      <h2 data-i18n="thisWeek">This week</h2>
       <span class="week-pct" id="weekPct"></span>
     </div>
     <div class="week-bars" id="weekBars"></div>
@@ -589,27 +781,27 @@
   </section>
 
   <div class="notify-banner" id="notifyBanner">
-    <strong>Turn on reminders?</strong> You'll get a notification when a timed routine comes due.
+    <strong data-i18n="notifyTitle">Turn on reminders?</strong> <span data-i18n="notifyBody">You'll get a notification when a timed routine comes due.</span>
     <div class="banner-actions">
-      <button type="button" class="enable" id="enableNotify">Enable reminders</button>
-      <button type="button" class="later" id="dismissNotify">Not now</button>
+      <button type="button" class="enable" id="enableNotify" data-i18n="enableReminders">Enable reminders</button>
+      <button type="button" class="later" id="dismissNotify" data-i18n="notNow">Not now</button>
     </div>
   </div>
 
-  <div class="all-done" id="allDone"><strong>Day complete.</strong> Every routine checked off — see you tomorrow.</div>
+  <div class="all-done" id="allDone"><strong data-i18n="dayCompleteTitle">Day complete.</strong> <span data-i18n="dayCompleteBody">Every routine checked off — see you tomorrow.</span></div>
 
   <main id="sections"></main>
 
-  <button class="edit-toggle" id="editToggle" type="button">Edit routines</button>
+  <button class="edit-toggle" id="editToggle" type="button" data-i18n="editRoutines">Edit routines</button>
 
   <section class="push-card" id="pushCard" aria-label="Push reminders">
     <div class="push-head">
-      <h2>Reminders when the app is closed</h2>
+      <h2 data-i18n="pushTitle">Reminders when the app is closed</h2>
       <span class="push-state" id="pushState">Off</span>
     </div>
     <p class="push-note" id="pushNote">Turn this on to get reminders even when JA Routine isn't open.</p>
     <div class="push-actions">
-      <button type="button" class="push-btn primary" id="pushEnable">Turn on</button>
+      <button type="button" class="push-btn primary" id="pushEnable" data-i18n="turnOn">Turn on</button>
       <button type="button" class="push-btn" id="pushCopy" hidden>Copy setup code</button>
     </div>
     <textarea class="push-code" id="pushCode" readonly rows="3" hidden aria-label="Setup code"></textarea>
@@ -619,15 +811,70 @@
 <div class="add-bar">
   <div class="add-inner">
     <div class="slot-pick" id="slotPick" role="group" aria-label="Time of day">
-      <button type="button" data-slot="morning" aria-pressed="true">Morning</button>
-      <button type="button" data-slot="afternoon" aria-pressed="false">Afternoon</button>
-      <button type="button" data-slot="evening" aria-pressed="false">Evening</button>
+      <button type="button" data-slot="morning" aria-pressed="true" data-i18n="slotMorning">Morning</button>
+      <button type="button" data-slot="afternoon" aria-pressed="false" data-i18n="slotAfternoon">Afternoon</button>
+      <button type="button" data-slot="evening" aria-pressed="false" data-i18n="slotEvening">Evening</button>
     </div>
     <form class="add-form" id="addForm">
       <input id="addInput" type="text" placeholder="Add a routine…" maxlength="80" autocomplete="off">
       <input id="addTime" type="time" aria-label="Reminder time (optional)">
-      <button type="submit">Add</button>
+      <button type="submit" data-i18n="addBtn">Add</button>
     </form>
+  </div>
+</div>
+
+<div class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+  <header class="sheet-head">
+    <button class="sheet-back" id="closeSettings" type="button">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      <span data-i18n="back">Back</span>
+    </button>
+    <h2 id="settingsTitle" data-i18n="settings">Settings</h2>
+  </header>
+
+  <div class="sheet-body">
+    <section class="set-group">
+      <h3 data-i18n="appearance">Appearance</h3>
+
+      <div class="set-row">
+        <span class="set-label" data-i18n="theme">Theme</span>
+        <div class="seg" id="themePick" role="group">
+          <button type="button" data-val="auto" data-i18n="auto">Auto</button>
+          <button type="button" data-val="light" data-i18n="light">Light</button>
+          <button type="button" data-val="dark" data-i18n="dark">Dark</button>
+        </div>
+      </div>
+
+      <div class="set-row stack">
+        <span class="set-label" data-i18n="colour">Colour</span>
+        <div class="swatches" id="accentPick" role="group"></div>
+      </div>
+    </section>
+
+    <section class="set-group">
+      <h3 data-i18n="language">Language</h3>
+      <div class="set-row">
+        <span class="set-label" data-i18n="appLanguage">App language</span>
+        <select id="langPick" class="set-select"></select>
+      </div>
+    </section>
+
+    <section class="set-group">
+      <h3 data-i18n="timeSection">Time</h3>
+      <div class="set-row">
+        <span class="set-label" data-i18n="clock">Clock</span>
+        <div class="seg" id="timePick" role="group">
+          <button type="button" data-val="auto" data-i18n="auto">Auto</button>
+          <button type="button" data-val="12" data-i18n="hour12">12-hour</button>
+          <button type="button" data-val="24" data-i18n="hour24">24-hour</button>
+        </div>
+      </div>
+      <p class="set-hint" data-i18n="clockHint">Changes how reminder times are shown. The time picker itself follows your phone's own setting.</p>
+    </section>
+
+    <p class="set-foot"><span data-i18n="tzLabel">Time zone</span>: <span id="tzValue"></span></p>
   </div>
 </div>
 
@@ -637,7 +884,282 @@
 (function () {
   var STORE_KEY = "dailyRoutine.v1";
   var SLOTS = ["morning", "afternoon", "evening"];
-  var SLOT_LABELS = { morning: "Morning", afternoon: "Afternoon", evening: "Evening" };
+
+  // Accent choices. Each one only sets a hue and saturation; the CSS ramps turn
+  // those into the accent plus the tint carried through every neutral.
+  var ACCENTS = [
+    { id: "fir",   h: 148, s: "34%" },
+    { id: "ocean", h: 203, s: "44%" },
+    { id: "plum",  h: 285, s: "28%" },
+    { id: "clay",  h: 16,  s: "44%" },
+    { id: "slate", h: 220, s: "14%" }
+  ];
+
+  // Twi covers the everyday wording; settings jargon with no settled Twi term is
+  // left in English, which is how these apps are normally read in Ghana anyway.
+  var LANGS = [
+    { id: "en", name: "English",    locale: "en", tag: "en" },
+    { id: "fr", name: "Français",   locale: "fr", tag: "fr" },
+    { id: "es", name: "Español",    locale: "es", tag: "es" },
+    { id: "pt", name: "Português",  locale: "pt", tag: "pt" },
+    // Intl has no Akan data, so formatting falls back to English while the
+    // document still declares Akan for screen readers.
+    { id: "tw", name: "Twi",        locale: "en", tag: "ak" }
+  ];
+
+  var TWI_DAYS = ["Kwasiada", "Dwoada", "Benada", "Wukuada", "Yawoada", "Fiada", "Memeneda"];
+
+  var STRINGS = {
+    en: {
+      greetMorning: "Good morning", greetAfternoon: "Good afternoon", greetEvening: "Good evening",
+      slotMorning: "Morning", slotAfternoon: "Afternoon", slotEvening: "Evening",
+      emptySlot: "Nothing here yet — add one below.",
+      ofCount: "of {n}", ringLabel: "{d} of {t} routines done", streak: "{n} day streak",
+      thisWeek: "This week", weekDay: "{day}: {d} of {t} done",
+      weekSummary: "{n} checked off · {p} perfect days",
+      dayCompleteTitle: "Day complete.", dayCompleteBody: "Every routine checked off — see you tomorrow.",
+      editRoutines: "Edit routines", doneEditing: "Done editing",
+      addPlaceholder: "Add a routine…", addBtn: "Add", timeAria: "Reminder time (optional)",
+      notifyTitle: "Turn on reminders?", notifyBody: "You'll get a notification when a timed routine comes due.",
+      enableReminders: "Enable reminders", notNow: "Not now",
+      checkAria: "Check off {n}", uncheckAria: "Uncheck {n}",
+      deleteAria: "Delete {n}", reminderAria: "Reminder time for {n}",
+      pushTitle: "Reminders when the app is closed",
+      stOff: "Off", stActive: "Active", stBlocked: "Blocked", stNA: "N/A",
+      stAlmost: "Almost there", stUpdate: "Update needed", stNoTimes: "No times",
+      noteOff: "Turn this on to get reminders even when JA Routine isn't open.",
+      noteBlocked: "Notifications are blocked for this site. Turn them back on in your browser's site settings, then reload.",
+      noteNA: "This browser can't do closed-app reminders. Chrome on Android can — try installing the app there.",
+      noteNoTimes: "This phone is registered. Give at least one routine a reminder time, then send the setup code.",
+      noteReady: "Copy this setup code and send it to Claude, who'll switch the reminders on. It holds your reminder times and a private address for this phone.",
+      noteActive: "Reminders are set up for {n} routines. Change a routine or its time and you'll get a new code to send.",
+      turnOn: "Turn on", copyCode: "Copy setup code", copyAgain: "Copy code again",
+      toastBlocked: "Notifications blocked — you'll still see reminders inside the app.",
+      toastOn: "Reminders on — you'll be notified while the app is open.",
+      toastRegistered: "This phone is registered. Now send the setup code.",
+      toastCopied: "Code copied. Send it to Claude to finish setup.",
+      toastSelect: "Select the code above and copy it.",
+      toastPushFail: "Couldn't turn on push reminders. Check your connection and try again.",
+      reminderPrefix: "Time for: {n}",
+      back: "Back", settings: "Settings", appearance: "Appearance", theme: "Theme",
+      auto: "Auto", light: "Light", dark: "Dark", colour: "Colour",
+      language: "Language", appLanguage: "App language",
+      timeSection: "Time", clock: "Clock", hour12: "12-hour", hour24: "24-hour",
+      clockHint: "Changes how reminder times are shown. The time picker itself follows your phone's own setting.",
+      tzLabel: "Time zone",
+      cFir: "Fir", cOcean: "Ocean", cPlum: "Plum", cClay: "Clay", cSlate: "Slate",
+      defaults: ["Drink a glass of water", "Stretch for 5 minutes", "Plan the top 3 things for today",
+                 "Take a short walk", "Eat lunch away from screens",
+                 "Review what got done today", "No phone 30 minutes before bed"]
+    },
+    fr: {
+      greetMorning: "Bonjour", greetAfternoon: "Bon après-midi", greetEvening: "Bonsoir",
+      slotMorning: "Matin", slotAfternoon: "Après-midi", slotEvening: "Soir",
+      emptySlot: "Rien ici pour l'instant — ajoutez-en une ci-dessous.",
+      ofCount: "sur {n}", ringLabel: "{d} routines sur {t} terminées", streak: "{n} jours d'affilée",
+      thisWeek: "Cette semaine", weekDay: "{day} : {d} sur {t} terminées",
+      weekSummary: "{n} cochées · {p} journées parfaites",
+      dayCompleteTitle: "Journée terminée.", dayCompleteBody: "Tout est coché — à demain.",
+      editRoutines: "Modifier les routines", doneEditing: "Terminer",
+      addPlaceholder: "Ajouter une routine…", addBtn: "Ajouter", timeAria: "Heure de rappel (facultatif)",
+      notifyTitle: "Activer les rappels ?", notifyBody: "Vous recevrez une notification à l'heure prévue.",
+      enableReminders: "Activer les rappels", notNow: "Plus tard",
+      checkAria: "Cocher {n}", uncheckAria: "Décocher {n}",
+      deleteAria: "Supprimer {n}", reminderAria: "Heure de rappel pour {n}",
+      pushTitle: "Rappels quand l'application est fermée",
+      stOff: "Inactif", stActive: "Actif", stBlocked: "Bloqué", stNA: "Indisponible",
+      stAlmost: "Presque fini", stUpdate: "Mise à jour requise", stNoTimes: "Aucune heure",
+      noteOff: "Activez ceci pour recevoir des rappels même quand JA Routine est fermée.",
+      noteBlocked: "Les notifications sont bloquées pour ce site. Réactivez-les dans les paramètres du navigateur, puis rechargez.",
+      noteNA: "Ce navigateur ne gère pas les rappels hors application. Chrome sur Android le fait — installez-y l'application.",
+      noteNoTimes: "Ce téléphone est enregistré. Donnez une heure à au moins une routine, puis envoyez le code.",
+      noteReady: "Copiez ce code de configuration et envoyez-le à Claude, qui activera les rappels. Il contient vos heures et une adresse privée pour ce téléphone.",
+      noteActive: "Les rappels sont configurés pour {n} routines. Modifiez une routine ou son heure et vous recevrez un nouveau code.",
+      turnOn: "Activer", copyCode: "Copier le code", copyAgain: "Copier à nouveau",
+      toastBlocked: "Notifications bloquées — les rappels resteront visibles dans l'application.",
+      toastOn: "Rappels activés — vous serez prévenu quand l'application est ouverte.",
+      toastRegistered: "Téléphone enregistré. Envoyez maintenant le code.",
+      toastCopied: "Code copié. Envoyez-le à Claude pour terminer.",
+      toastSelect: "Sélectionnez le code ci-dessus et copiez-le.",
+      toastPushFail: "Impossible d'activer les rappels. Vérifiez votre connexion et réessayez.",
+      reminderPrefix: "C'est l'heure : {n}",
+      back: "Retour", settings: "Paramètres", appearance: "Apparence", theme: "Thème",
+      auto: "Auto", light: "Clair", dark: "Sombre", colour: "Couleur",
+      language: "Langue", appLanguage: "Langue de l'application",
+      timeSection: "Heure", clock: "Format", hour12: "12 h", hour24: "24 h",
+      clockHint: "Change l'affichage des heures de rappel. Le sélecteur d'heure suit le réglage de votre téléphone.",
+      tzLabel: "Fuseau horaire",
+      cFir: "Sapin", cOcean: "Océan", cPlum: "Prune", cClay: "Argile", cSlate: "Ardoise",
+      defaults: ["Boire un verre d'eau", "S'étirer pendant 5 minutes", "Planifier les 3 priorités du jour",
+                 "Faire une courte marche", "Déjeuner loin des écrans",
+                 "Revoir ce qui a été fait", "Pas de téléphone 30 minutes avant le coucher"]
+    },
+    es: {
+      greetMorning: "Buenos días", greetAfternoon: "Buenas tardes", greetEvening: "Buenas noches",
+      slotMorning: "Mañana", slotAfternoon: "Tarde", slotEvening: "Noche",
+      emptySlot: "Aquí no hay nada todavía — añade una abajo.",
+      ofCount: "de {n}", ringLabel: "{d} de {t} rutinas hechas", streak: "{n} días seguidos",
+      thisWeek: "Esta semana", weekDay: "{day}: {d} de {t} hechas",
+      weekSummary: "{n} completadas · {p} días perfectos",
+      dayCompleteTitle: "Día completo.", dayCompleteBody: "Todo hecho — hasta mañana.",
+      editRoutines: "Editar rutinas", doneEditing: "Listo",
+      addPlaceholder: "Añadir una rutina…", addBtn: "Añadir", timeAria: "Hora del recordatorio (opcional)",
+      notifyTitle: "¿Activar recordatorios?", notifyBody: "Recibirás una notificación a la hora indicada.",
+      enableReminders: "Activar recordatorios", notNow: "Ahora no",
+      checkAria: "Marcar {n}", uncheckAria: "Desmarcar {n}",
+      deleteAria: "Eliminar {n}", reminderAria: "Hora del recordatorio para {n}",
+      pushTitle: "Recordatorios con la aplicación cerrada",
+      stOff: "Inactivo", stActive: "Activo", stBlocked: "Bloqueado", stNA: "No disponible",
+      stAlmost: "Casi listo", stUpdate: "Actualización necesaria", stNoTimes: "Sin horas",
+      noteOff: "Actívalo para recibir recordatorios aunque JA Routine esté cerrada.",
+      noteBlocked: "Las notificaciones están bloqueadas para este sitio. Vuelve a activarlas en los ajustes del navegador y recarga.",
+      noteNA: "Este navegador no admite recordatorios con la app cerrada. Chrome en Android sí — instala la app allí.",
+      noteNoTimes: "Este teléfono está registrado. Ponle hora a alguna rutina y envía el código.",
+      noteReady: "Copia este código de configuración y envíalo a Claude, que activará los recordatorios. Contiene tus horas y una dirección privada para este teléfono.",
+      noteActive: "Recordatorios configurados para {n} rutinas. Si cambias una rutina o su hora, recibirás un código nuevo.",
+      turnOn: "Activar", copyCode: "Copiar código", copyAgain: "Copiar de nuevo",
+      toastBlocked: "Notificaciones bloqueadas — seguirás viendo los recordatorios dentro de la app.",
+      toastOn: "Recordatorios activos — te avisaremos mientras la app esté abierta.",
+      toastRegistered: "Teléfono registrado. Ahora envía el código.",
+      toastCopied: "Código copiado. Envíaselo a Claude para terminar.",
+      toastSelect: "Selecciona el código de arriba y cópialo.",
+      toastPushFail: "No se pudieron activar los recordatorios. Revisa tu conexión e inténtalo de nuevo.",
+      reminderPrefix: "Es la hora: {n}",
+      back: "Atrás", settings: "Ajustes", appearance: "Apariencia", theme: "Tema",
+      auto: "Auto", light: "Claro", dark: "Oscuro", colour: "Color",
+      language: "Idioma", appLanguage: "Idioma de la aplicación",
+      timeSection: "Hora", clock: "Formato", hour12: "12 horas", hour24: "24 horas",
+      clockHint: "Cambia cómo se muestran las horas. El selector de hora sigue el ajuste de tu teléfono.",
+      tzLabel: "Zona horaria",
+      cFir: "Abeto", cOcean: "Océano", cPlum: "Ciruela", cClay: "Arcilla", cSlate: "Pizarra",
+      defaults: ["Beber un vaso de agua", "Estirar durante 5 minutos", "Planear las 3 cosas del día",
+                 "Dar un paseo corto", "Comer lejos de las pantallas",
+                 "Repasar lo hecho hoy", "Sin teléfono 30 minutos antes de dormir"]
+    },
+    pt: {
+      greetMorning: "Bom dia", greetAfternoon: "Boa tarde", greetEvening: "Boa noite",
+      slotMorning: "Manhã", slotAfternoon: "Tarde", slotEvening: "Noite",
+      emptySlot: "Nada aqui ainda — adicione uma abaixo.",
+      ofCount: "de {n}", ringLabel: "{d} de {t} rotinas concluídas", streak: "{n} dias seguidos",
+      thisWeek: "Esta semana", weekDay: "{day}: {d} de {t} concluídas",
+      weekSummary: "{n} concluídas · {p} dias perfeitos",
+      dayCompleteTitle: "Dia completo.", dayCompleteBody: "Tudo concluído — até amanhã.",
+      editRoutines: "Editar rotinas", doneEditing: "Concluir",
+      addPlaceholder: "Adicionar uma rotina…", addBtn: "Adicionar", timeAria: "Hora do lembrete (opcional)",
+      notifyTitle: "Ativar lembretes?", notifyBody: "Você receberá uma notificação na hora marcada.",
+      enableReminders: "Ativar lembretes", notNow: "Agora não",
+      checkAria: "Marcar {n}", uncheckAria: "Desmarcar {n}",
+      deleteAria: "Excluir {n}", reminderAria: "Hora do lembrete para {n}",
+      pushTitle: "Lembretes com o app fechado",
+      stOff: "Inativo", stActive: "Ativo", stBlocked: "Bloqueado", stNA: "Indisponível",
+      stAlmost: "Quase lá", stUpdate: "Atualização necessária", stNoTimes: "Sem horários",
+      noteOff: "Ative para receber lembretes mesmo com o JA Routine fechado.",
+      noteBlocked: "As notificações estão bloqueadas para este site. Reative nas configurações do navegador e recarregue.",
+      noteNA: "Este navegador não faz lembretes com o app fechado. O Chrome no Android faz — instale o app por lá.",
+      noteNoTimes: "Este telefone está registrado. Defina um horário para alguma rotina e envie o código.",
+      noteReady: "Copie este código de configuração e envie ao Claude, que vai ligar os lembretes. Ele contém seus horários e um endereço privado deste telefone.",
+      noteActive: "Lembretes configurados para {n} rotinas. Se mudar uma rotina ou horário, você recebe um código novo.",
+      turnOn: "Ativar", copyCode: "Copiar código", copyAgain: "Copiar de novo",
+      toastBlocked: "Notificações bloqueadas — os lembretes continuam aparecendo dentro do app.",
+      toastOn: "Lembretes ativos — você será avisado enquanto o app estiver aberto.",
+      toastRegistered: "Telefone registrado. Agora envie o código.",
+      toastCopied: "Código copiado. Envie ao Claude para concluir.",
+      toastSelect: "Selecione o código acima e copie.",
+      toastPushFail: "Não foi possível ativar os lembretes. Verifique sua conexão e tente de novo.",
+      reminderPrefix: "Está na hora: {n}",
+      back: "Voltar", settings: "Configurações", appearance: "Aparência", theme: "Tema",
+      auto: "Auto", light: "Claro", dark: "Escuro", colour: "Cor",
+      language: "Idioma", appLanguage: "Idioma do app",
+      timeSection: "Hora", clock: "Formato", hour12: "12 horas", hour24: "24 horas",
+      clockHint: "Muda como os horários aparecem. O seletor de hora segue a configuração do seu telefone.",
+      tzLabel: "Fuso horário",
+      cFir: "Pinheiro", cOcean: "Oceano", cPlum: "Ameixa", cClay: "Argila", cSlate: "Ardósia",
+      defaults: ["Beber um copo de água", "Alongar por 5 minutos", "Planejar as 3 prioridades do dia",
+                 "Dar uma caminhada curta", "Almoçar longe das telas",
+                 "Revisar o que foi feito hoje", "Sem celular 30 minutos antes de dormir"]
+    },
+    tw: {
+      greetMorning: "Maakye", greetAfternoon: "Maaha", greetEvening: "Maadwo",
+      slotMorning: "Anɔpa", slotAfternoon: "Awia", slotEvening: "Anwummerɛ",
+      emptySlot: "Biribiara nni ha — fa bi ka ho wɔ ase hɔ.",
+      ofCount: "wɔ {n} mu", ringLabel: "{d} wɔ {t} mu awie", streak: "Nna {n}",
+      thisWeek: "Dapɛn yi", weekDay: "{day}: {d} wɔ {t} mu awie",
+      weekSummary: "{n} awie · nna {p} a ɛyɛ pɛ",
+      dayCompleteTitle: "Ɛda no awie.", dayCompleteBody: "Woayɛ ne nyinaa — yɛbɛhyia ɔkyena.",
+      editRoutines: "Sesa routines", doneEditing: "Awie",
+      addPlaceholder: "Fa routine bi ka ho…", addBtn: "Fa ka ho", timeAria: "Nkae berɛ",
+      notifyTitle: "Sɔ nkae no?", notifyBody: "Yɛbɛbɔ wo amaneɛ wɔ berɛ a woahyɛ no.",
+      enableReminders: "Sɔ nkae", notNow: "Ɛnyɛ seesei",
+      checkAria: "Hyɛ {n} agyiraeɛ", uncheckAria: "Yi {n} agyiraeɛ",
+      deleteAria: "Pepa {n}", reminderAria: "Nkae berɛ ma {n}",
+      pushTitle: "Nkae berɛ a app no mu ato",
+      stOff: "Adum", stActive: "Ɛreyɛ adwuma", stBlocked: "Wɔasi ho kwan", stNA: "Nni hɔ",
+      stAlmost: "Aka kakra", stUpdate: "Hia nsakraeɛ", stNoTimes: "Berɛ biara nni hɔ",
+      noteOff: "Sɔ yei na woanya nkae berɛ a JA Routine mu ato mpo.",
+      noteBlocked: "Wɔasi amaneɛbɔ ho kwan wɔ saa site yi so. Sesa wɔ browser settings mu, na san load.",
+      noteNA: "Saa browser yi ntumi nyɛ nkae berɛ a app mu ato. Chrome a ɛwɔ Android so tumi — fa app no si hɔ.",
+      noteNoTimes: "Saa fon yi wɔ hɔ dada. Fa berɛ hyɛ routine baako, na fa code no kɔ.",
+      noteReady: "Fa setup code yi na fa kɔma Claude, na ɔbɛsɔ nkae no. Ɛkura wo berɛ ne saa fon yi address.",
+      noteActive: "Nkae ahyehyɛ ama routines {n}. Sɛ wosesa routine anaa ne berɛ a, wobɛnya code foforɔ.",
+      turnOn: "Sɔ", copyCode: "Fa code no", copyAgain: "San fa code no",
+      toastBlocked: "Wɔasi amaneɛbɔ ho kwan — nanso wobɛhunu nkae wɔ app no mu.",
+      toastOn: "Nkae asɔ — yɛbɛbɔ wo amaneɛ berɛ a app no mu abue.",
+      toastRegistered: "Saa fon yi wɔ hɔ. Afei fa setup code no kɔ.",
+      toastCopied: "Woafa code no. Fa kɔma Claude na wie.",
+      toastSelect: "Paw code a ɛwɔ soro hɔ na fa.",
+      toastPushFail: "Yɛantumi ansɔ nkae no. Hwɛ wo intanɛt na sɔ hwɛ bio.",
+      reminderPrefix: "Berɛ aso: {n}",
+      back: "San kɔ", settings: "Nhyehyɛeɛ", appearance: "Nsɛso", theme: "Theme",
+      auto: "Auto", light: "Hann", dark: "Sum", colour: "Kɔla",
+      language: "Kasa", appLanguage: "App no kasa",
+      timeSection: "Berɛ", clock: "Dɔn", hour12: "Nnɔnhwerew 12", hour24: "Nnɔnhwerew 24",
+      clockHint: "Ɛsesa sɛdeɛ berɛ kyerɛ. Time picker no di wo fon no nhyehyɛeɛ akyi.",
+      tzLabel: "Berɛ mpɔtam",
+      cFir: "Dua", cOcean: "Ɛpo", cPlum: "Aduaba", cClay: "Dɔteɛ", cSlate: "Ɔbo",
+      defaults: ["Nom nsuo kuruwa baako", "Twe wo nipadua simma 5", "Hyehyɛ nneɛma 3 a ɛho hia ɛnnɛ",
+                 "Nante kakra", "Di aduane a wonhwɛ screen",
+                 "Hwɛ deɛ woayɛ ɛnnɛ", "Nnfa fon simma 30 ansa na woada"]
+    }
+  };
+
+  var STARTER_SLOTS = ["morning", "morning", "morning", "afternoon", "afternoon", "evening", "evening"];
+
+  var settings = { theme: "auto", accent: "fir", lang: "en", timeFormat: "auto" };
+
+  // Start in the phone's language when we speak it, otherwise English.
+  function detectLang() {
+    var want = (navigator.languages || [navigator.language || "en"]);
+    for (var i = 0; i < want.length; i++) {
+      var base = String(want[i]).toLowerCase().split("-")[0];
+      if (base === "ak" || base === "tw") return "tw";
+      for (var j = 0; j < LANGS.length; j++) if (LANGS[j].id === base) return base;
+    }
+    return "en";
+  }
+
+  function dict() { return STRINGS[settings.lang] || STRINGS.en; }
+
+  function t(key, vars) {
+    var s = dict()[key];
+    if (s === undefined) s = STRINGS.en[key];
+    if (s === undefined) return key;
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        s = s.split("{" + k + "}").join(vars[k]);
+      });
+    }
+    return s;
+  }
+
+  function langDef() {
+    return LANGS.filter(function (x) { return x.id === settings.lang; })[0] || LANGS[0];
+  }
+
+  function localeTag() { return langDef().locale; }
+
+  function slotLabel(slot) {
+    return t(slot === "morning" ? "slotMorning" : slot === "afternoon" ? "slotAfternoon" : "slotEvening");
+  }
 
   function todayKey() {
     var d = new Date();
@@ -650,24 +1172,27 @@
       if (raw) return JSON.parse(raw);
     } catch (e) {}
     return {
-      routines: [
-        { id: "r1", name: "Drink a glass of water", slot: "morning", time: "" },
-        { id: "r2", name: "Stretch for 5 minutes", slot: "morning", time: "" },
-        { id: "r3", name: "Plan the top 3 things for today", slot: "morning", time: "" },
-        { id: "r4", name: "Take a short walk", slot: "afternoon", time: "" },
-        { id: "r5", name: "Eat lunch away from screens", slot: "afternoon", time: "" },
-        { id: "r6", name: "Review what got done today", slot: "evening", time: "" },
-        { id: "r7", name: "No phone 30 minutes before bed", slot: "evening", time: "" }
-      ],
+      routines: STARTER_SLOTS.map(function (slot, i) {
+        return { id: "r" + (i + 1), name: dict().defaults[i], slot: slot, time: "" };
+      }),
       days: {},      // { "2026-08-02": { done: ["r1"], completedAll: false, notified: [] } }
       askedNotify: false,
       pushSyncedCode: ""
     };
   }
 
+  settings.lang = detectLang();
   var state = load();
 
+  // A saved choice always wins over the detected default.
+  if (state.settings) {
+    Object.keys(settings).forEach(function (k) {
+      if (state.settings[k] !== undefined) settings[k] = state.settings[k];
+    });
+  }
+
   function save() {
+    state.settings = settings;
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
   }
 
@@ -682,7 +1207,29 @@
     var parts = hhmm.split(":");
     var d = new Date();
     d.setHours(Number(parts[0]), Number(parts[1]), 0, 0);
-    return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    var opts = { minute: "2-digit" };
+    if (settings.timeFormat === "24") { opts.hour = "2-digit"; opts.hour12 = false; }
+    else if (settings.timeFormat === "12") { opts.hour = "numeric"; opts.hour12 = true; }
+    else { opts.hour = "numeric"; }
+    return d.toLocaleTimeString(localeTag(), opts);
+  }
+
+  // Intl has no Akan locale, so Twi day names are supplied directly. Short forms
+  // keep three letters: two isn't enough to tell Portuguese qua/qui or seg/sex apart.
+  function dayName(date, style) {
+    var full = settings.lang === "tw"
+      ? TWI_DAYS[date.getDay()]
+      : date.toLocaleDateString(localeTag(), { weekday: style === "short" ? "short" : "long" });
+    if (style !== "short") return full;
+    return full.replace(/\.+$/, "").slice(0, 3);
+  }
+
+  function fullDate(date) {
+    if (settings.lang === "tw") {
+      return TWI_DAYS[date.getDay()] + ", " +
+        date.toLocaleDateString("en", { month: "long", day: "numeric" });
+    }
+    return date.toLocaleDateString(localeTag(), { weekday: "long", month: "long", day: "numeric" });
   }
 
   // Streak: consecutive days (ending today or yesterday) where all routines were completed.
@@ -690,8 +1237,8 @@
     var count = 0;
     var d = new Date();
     var key = todayKey();
-    var t = state.days[key];
-    if (!(t && t.completedAll)) d.setDate(d.getDate() - 1); // today not done yet — count back from yesterday
+    var rec0 = state.days[key];
+    if (!(rec0 && rec0.completedAll)) d.setDate(d.getDate() - 1); // today not done yet — count back from yesterday
     for (;;) {
       var k = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
       var rec = state.days[k];
@@ -703,9 +1250,9 @@
 
   function greetingText() {
     var h = new Date().getHours();
-    if (h < 12) return "Good morning";
-    if (h < 18) return "Good afternoon";
-    return "Good evening";
+    if (h < 12) return t("greetMorning");
+    if (h < 18) return t("greetAfternoon");
+    return t("greetEvening");
   }
 
   var el = {
@@ -736,7 +1283,16 @@
     pushEnable: document.getElementById("pushEnable"),
     pushCopy: document.getElementById("pushCopy"),
     pushCode: document.getElementById("pushCode"),
-    toast: document.getElementById("toast")
+    toast: document.getElementById("toast"),
+    openSettings: document.getElementById("openSettings"),
+    closeSettings: document.getElementById("closeSettings"),
+    sheet: document.getElementById("settingsSheet"),
+    themePick: document.getElementById("themePick"),
+    accentPick: document.getElementById("accentPick"),
+    langPick: document.getElementById("langPick"),
+    timePick: document.getElementById("timePick"),
+    tzValue: document.getElementById("tzValue"),
+    themeColor: document.getElementById("themeColor")
   };
 
   var pickedSlot = "morning";
@@ -745,9 +1301,7 @@
   function render() {
     var day = today();
     el.greeting.textContent = greetingText();
-    el.dateLine.textContent = new Date().toLocaleDateString(undefined, {
-      weekday: "long", month: "long", day: "numeric"
-    });
+    el.dateLine.textContent = fullDate(new Date());
 
     // sections
     el.sections.innerHTML = "";
@@ -768,14 +1322,14 @@
       head.className = "section-head";
       head.innerHTML = '<span class="dot"></span>';
       var h2 = document.createElement("h2");
-      h2.textContent = SLOT_LABELS[slot];
+      h2.textContent = slotLabel(slot);
       head.appendChild(h2);
       sec.appendChild(head);
 
       if (!items.length) {
         var p = document.createElement("p");
         p.className = "empty-slot";
-        p.textContent = "Nothing here yet — add one below.";
+        p.textContent = t("emptySlot");
         sec.appendChild(p);
       } else {
         var ul = document.createElement("ul");
@@ -789,7 +1343,7 @@
           check.className = "check";
           check.type = "button";
           check.setAttribute("aria-pressed", String(isDone));
-          check.setAttribute("aria-label", (isDone ? "Uncheck " : "Check off ") + r.name);
+          check.setAttribute("aria-label", t(isDone ? "uncheckAria" : "checkAria", { n: r.name }));
           check.innerHTML = '<svg width="13" height="11" viewBox="0 0 13 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4.8 8.8L11.5 1.8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
           check.addEventListener("click", function () { toggle(r.id); });
           li.appendChild(check);
@@ -813,7 +1367,7 @@
           timeEdit.type = "time";
           timeEdit.className = "time-edit";
           timeEdit.value = r.time || "";
-          timeEdit.setAttribute("aria-label", "Reminder time for " + r.name);
+          timeEdit.setAttribute("aria-label", t("reminderAria", { n: r.name }));
           timeEdit.addEventListener("change", function () {
             r.time = timeEdit.value;
             render();
@@ -824,7 +1378,7 @@
           rm.className = "remove";
           rm.type = "button";
           rm.textContent = "×";
-          rm.setAttribute("aria-label", "Delete " + r.name);
+          rm.setAttribute("aria-label", t("deleteAria", { n: r.name }));
           rm.addEventListener("click", function () { removeRoutine(r.id); });
           li.appendChild(rm);
 
@@ -841,10 +1395,10 @@
       return state.routines.some(function (r) { return r.id === id; });
     }).length;
     el.doneCount.textContent = String(done);
-    el.totalCount.textContent = "of " + total;
+    el.totalCount.textContent = t("ofCount", { n: total });
     var frac = total ? done / total : 0;
     el.ringFill.setAttribute("stroke-dashoffset", String(CIRC * (1 - frac)));
-    el.ringWrap.setAttribute("aria-label", done + " of " + total + " routines done");
+    el.ringWrap.setAttribute("aria-label", t("ringLabel", { d: done, t: total }));
 
     // day-complete state
     day.completedAll = total > 0 && done === total;
@@ -852,7 +1406,7 @@
 
     var s = streak();
     el.streakBadge.hidden = s === 0;
-    el.streakText.textContent = s + (s === 1 ? " day streak" : " day streak");
+    el.streakText.textContent = t("streak", { n: s });
 
     renderWeek();
 
@@ -892,7 +1446,7 @@
 
       var bar = document.createElement("div");
       bar.className = "week-bar";
-      var label = d.toLocaleDateString(undefined, { weekday: "long" }) + ": " + done + " of " + total + " done";
+      var label = t("weekDay", { day: dayName(d, "long"), d: done, t: total });
       bar.setAttribute("role", "img");
       bar.setAttribute("aria-label", label);
       var fill = document.createElement("div");
@@ -909,7 +1463,7 @@
 
       var letter = document.createElement("span");
       letter.className = "letter";
-      letter.textContent = d.toLocaleDateString(undefined, { weekday: "short" }).slice(0, 2);
+      letter.textContent = dayName(d, "short");
       letter.setAttribute("aria-hidden", "true");
       col.appendChild(letter);
 
@@ -919,19 +1473,19 @@
     var weekTotal = total * 7;
     var pct = weekTotal ? Math.round((weekDone / weekTotal) * 100) : 0;
     el.weekPct.textContent = pct + "%";
+
+    // Bold the two numbers wherever the translation happens to place them.
+    var summary = t("weekSummary", { n: "%%N%%", p: "%%P%%" });
     el.weekSummary.innerHTML = "";
-    var s1 = document.createElement("strong");
-    s1.textContent = String(weekDone);
-    el.weekSummary.appendChild(s1);
-    el.weekSummary.appendChild(document.createTextNode(
-      (weekDone === 1 ? " routine" : " routines") + " checked off · "
-    ));
-    var s2 = document.createElement("strong");
-    s2.textContent = String(perfectDays);
-    el.weekSummary.appendChild(s2);
-    el.weekSummary.appendChild(document.createTextNode(
-      perfectDays === 1 ? " perfect day" : " perfect days"
-    ));
+    summary.split(/(%%N%%|%%P%%)/).forEach(function (part) {
+      if (part === "%%N%%" || part === "%%P%%") {
+        var b = document.createElement("strong");
+        b.textContent = String(part === "%%N%%" ? weekDone : perfectDays);
+        el.weekSummary.appendChild(b);
+      } else if (part) {
+        el.weekSummary.appendChild(document.createTextNode(part));
+      }
+    });
   }
 
   var toastTimer = null;
@@ -943,7 +1497,7 @@
   }
 
   function fireReminder(r) {
-    var msg = "Time for: " + r.name;
+    var msg = t("reminderPrefix", { n: r.name });
     if (typeof Notification !== "undefined" && Notification.permission === "granted") {
       try { new Notification("JA Routine", { body: r.name, tag: "routine-" + r.id }); } catch (e) {}
     }
@@ -985,7 +1539,7 @@
 
   el.editToggle.addEventListener("click", function () {
     var editing = document.body.classList.toggle("editing");
-    el.editToggle.textContent = editing ? "Done editing" : "Edit routines";
+    el.editToggle.textContent = t(editing ? "doneEditing" : "editRoutines");
   });
 
   el.slotPick.addEventListener("click", function (e) {
@@ -1011,9 +1565,7 @@
     state.askedNotify = true;
     if (typeof Notification !== "undefined") {
       Notification.requestPermission().then(function (perm) {
-        showToast(perm === "granted"
-          ? "Reminders on — you'll be notified while the app is open."
-          : "Notifications blocked — you'll still see reminders inside the app.");
+        showToast(t(perm === "granted" ? "toastOn" : "toastBlocked"));
         render();
       });
     }
@@ -1061,8 +1613,8 @@
     card.classList.remove("on", "pending");
 
     if (!pushSupported()) {
-      el.pushState.textContent = "N/A";
-      el.pushNote.textContent = "This browser can't do closed-app reminders. Chrome on Android can — try installing the app there.";
+      el.pushState.textContent = t("stNA");
+      el.pushNote.textContent = t("noteNA");
       el.pushEnable.hidden = true;
       el.pushCopy.hidden = true;
       el.pushCode.hidden = true;
@@ -1070,8 +1622,8 @@
     }
 
     if (Notification.permission === "denied") {
-      el.pushState.textContent = "Blocked";
-      el.pushNote.textContent = "Notifications are blocked for this site. Turn them back on in your browser's site settings, then reload.";
+      el.pushState.textContent = t("stBlocked");
+      el.pushNote.textContent = t("noteBlocked");
       el.pushEnable.hidden = true;
       el.pushCopy.hidden = true;
       el.pushCode.hidden = true;
@@ -1079,10 +1631,10 @@
     }
 
     if (!pushSub) {
-      el.pushState.textContent = "Off";
-      el.pushNote.textContent = "Turn this on to get reminders even when JA Routine isn't open.";
+      el.pushState.textContent = t("stOff");
+      el.pushNote.textContent = t("noteOff");
       el.pushEnable.hidden = false;
-      el.pushEnable.textContent = "Turn on";
+      el.pushEnable.textContent = t("turnOn");
       el.pushCopy.hidden = true;
       el.pushCode.hidden = true;
       return;
@@ -1093,8 +1645,8 @@
 
     if (!timedCount) {
       card.classList.add("pending");
-      el.pushState.textContent = "No times";
-      el.pushNote.textContent = "This phone is registered. Give at least one routine a reminder time, then send the setup code.";
+      el.pushState.textContent = t("stNoTimes");
+      el.pushNote.textContent = t("noteNoTimes");
       el.pushEnable.hidden = true;
       el.pushCopy.hidden = true;
       el.pushCode.hidden = true;
@@ -1103,21 +1655,21 @@
 
     if (state.pushSyncedCode === code) {
       card.classList.add("on");
-      el.pushState.textContent = "Active";
-      el.pushNote.textContent = "Reminders are set up for " + timedCount + (timedCount === 1 ? " routine" : " routines") + ". Change a routine or its time and you'll get a new code to send.";
+      el.pushState.textContent = t("stActive");
+      el.pushNote.textContent = t("noteActive", { n: timedCount });
       el.pushEnable.hidden = true;
       el.pushCopy.hidden = false;
-      el.pushCopy.textContent = "Copy code again";
+      el.pushCopy.textContent = t("copyAgain");
       el.pushCode.hidden = true;
       return;
     }
 
     card.classList.add("pending");
-    el.pushState.textContent = state.pushSyncedCode ? "Update needed" : "Almost there";
-    el.pushNote.textContent = "Copy this setup code and send it to Claude, who'll switch the reminders on. It holds your reminder times and a private address for this phone.";
+    el.pushState.textContent = t(state.pushSyncedCode ? "stUpdate" : "stAlmost");
+    el.pushNote.textContent = t("noteReady");
     el.pushEnable.hidden = true;
     el.pushCopy.hidden = false;
-    el.pushCopy.textContent = "Copy setup code";
+    el.pushCopy.textContent = t("copyCode");
     el.pushCode.hidden = false;
     el.pushCode.value = code;
   }
@@ -1126,7 +1678,7 @@
     if (!pushSupported() || !swReg) return;
     Notification.requestPermission().then(function (perm) {
       if (perm !== "granted") {
-        showToast("Notifications blocked — you'll still see reminders inside the app.");
+        showToast(t("toastBlocked"));
         updatePushUI();
         return;
       }
@@ -1137,11 +1689,11 @@
         pushSub = sub;
         state.askedNotify = true;
         save();
-        showToast("This phone is registered. Now send the setup code.");
+        showToast(t("toastRegistered"));
         updatePushUI();
       });
     }).catch(function () {
-      showToast("Couldn't turn on push reminders. Check your connection and try again.");
+      showToast(t("toastPushFail"));
       updatePushUI();
     });
   }
@@ -1156,13 +1708,13 @@
     var done = function () {
       state.pushSyncedCode = code;
       save();
-      showToast("Code copied. Send it to Claude to finish setup.");
+      showToast(t("toastCopied"));
       updatePushUI();
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(code).then(done, function () {
         el.pushCode.select();
-        showToast("Select the code above and copy it.");
+        showToast(t("toastSelect"));
       });
     } else {
       el.pushCode.select();
@@ -1183,6 +1735,140 @@
     updatePushUI();
   }
 
+  // ---------- Settings ----------
+  function accentDef() {
+    return ACCENTS.filter(function (a) { return a.id === settings.accent; })[0] || ACCENTS[0];
+  }
+
+  function applyAppearance() {
+    var root = document.documentElement;
+    if (settings.theme === "auto") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", settings.theme);
+
+    var a = accentDef();
+    root.style.setProperty("--accent-h", String(a.h));
+    root.style.setProperty("--accent-s", a.s);
+
+    // Keep the Android status bar in step with the page background.
+    if (el.themeColor) {
+      var bg = getComputedStyle(document.body).backgroundColor;
+      if (bg) el.themeColor.setAttribute("content", bg);
+    }
+    syncSeg(el.themePick, settings.theme);
+    syncSwatches();
+  }
+
+  function syncSeg(group, value) {
+    if (!group) return;
+    group.querySelectorAll("button[data-val]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.val === value));
+    });
+  }
+
+  function syncSwatches() {
+    el.accentPick.querySelectorAll(".swatch").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.val === settings.accent));
+    });
+  }
+
+  function buildSwatches() {
+    el.accentPick.innerHTML = "";
+    ACCENTS.forEach(function (a) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "swatch";
+      b.dataset.val = a.id;
+      b.style.setProperty("--sw-h", String(a.h));
+      b.style.setProperty("--sw-s", a.s);
+      b.appendChild(document.createElement("i"));
+      b.addEventListener("click", function () {
+        settings.accent = a.id;
+        applyAppearance();
+        save();
+      });
+      el.accentPick.appendChild(b);
+    });
+  }
+
+  function buildLangOptions() {
+    el.langPick.innerHTML = "";
+    LANGS.forEach(function (l) {
+      var o = document.createElement("option");
+      o.value = l.id;
+      o.textContent = l.name;   // each language named in itself
+      el.langPick.appendChild(o);
+    });
+    el.langPick.value = settings.lang;
+  }
+
+  // Swap every static string, then let render() redraw the dynamic ones.
+  function applyLang() {
+    document.documentElement.lang = langDef().tag;
+    document.querySelectorAll("[data-i18n]").forEach(function (node) {
+      node.textContent = t(node.dataset.i18n);
+    });
+    el.addInput.placeholder = t("addPlaceholder");
+    el.addTime.setAttribute("aria-label", t("timeAria"));
+    el.editToggle.textContent = t(document.body.classList.contains("editing") ? "doneEditing" : "editRoutines");
+    el.langPick.value = settings.lang;
+    syncSeg(el.timePick, settings.timeFormat);
+    syncSeg(el.themePick, settings.theme);
+    try {
+      el.tzValue.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "—";
+    } catch (e) { el.tzValue.textContent = "—"; }
+    render();
+  }
+
+  el.openSettings.addEventListener("click", function () {
+    el.sheet.hidden = false;
+    el.closeSettings.focus();
+  });
+  el.closeSettings.addEventListener("click", function () {
+    el.sheet.hidden = true;
+    el.openSettings.focus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !el.sheet.hidden) {
+      el.sheet.hidden = true;
+      el.openSettings.focus();
+    }
+  });
+
+  el.themePick.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-val]");
+    if (!b) return;
+    settings.theme = b.dataset.val;
+    applyAppearance();
+    save();
+  });
+
+  el.timePick.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-val]");
+    if (!b) return;
+    settings.timeFormat = b.dataset.val;
+    syncSeg(el.timePick, settings.timeFormat);
+    save();
+    render();
+  });
+
+  el.langPick.addEventListener("change", function () {
+    settings.lang = el.langPick.value;
+    save();
+    applyLang();
+  });
+
+  // A manual theme choice wins, but "Auto" should still follow the system.
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    var onScheme = function () { if (settings.theme === "auto") applyAppearance(); };
+    if (mq.addEventListener) mq.addEventListener("change", onScheme);
+    else if (mq.addListener) mq.addListener(onScheme);
+  }
+
+  buildSwatches();
+  buildLangOptions();
+  applyAppearance();
+
   // Roll over at midnight and check reminders while the app is open.
   var openedOn = todayKey();
   setInterval(function () {
@@ -1191,7 +1877,7 @@
   }, 20000);
   checkReminders();
 
-  render();
+  applyLang();
 })();
 </script>
 </body>
