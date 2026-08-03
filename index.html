@@ -874,6 +874,28 @@
     </section>
 
     <section class="set-group">
+      <h3 data-i18n="feedbackSection">Sound &amp; vibration</h3>
+
+      <div class="set-row">
+        <span class="set-label" data-i18n="sound">Sound</span>
+        <div class="seg" id="soundPick" role="group">
+          <button type="button" data-val="on" data-i18n="on">On</button>
+          <button type="button" data-val="off" data-i18n="off">Off</button>
+        </div>
+      </div>
+
+      <div class="set-row">
+        <span class="set-label" data-i18n="vibration">Vibration</span>
+        <div class="seg" id="vibratePick" role="group">
+          <button type="button" data-val="on" data-i18n="on">On</button>
+          <button type="button" data-val="off" data-i18n="off">Off</button>
+        </div>
+      </div>
+
+      <p class="set-hint" data-i18n="feedbackHint">Plays when you check off a routine, with a longer chime once the day is complete. Vibration depends on what your phone supports.</p>
+    </section>
+
+    <section class="set-group">
       <h3 data-i18n="language">Language</h3>
       <div class="set-row">
         <span class="set-label" data-i18n="appLanguage">App language</span>
@@ -968,6 +990,9 @@
       clockHint: "Changes how reminder times are shown. The time picker itself follows your phone's own setting.",
       tzLabel: "Time zone",
       toDark: "Switch to dark mode", toLight: "Switch to light mode",
+      feedbackSection: "Sound & vibration", sound: "Sound", vibration: "Vibration",
+      on: "On", off: "Off",
+      feedbackHint: "Plays when you check off a routine, with a longer chime once the day is complete. Vibration depends on what your phone supports.",
       cFir: "Fir", cOcean: "Ocean", cPlum: "Plum", cClay: "Clay", cSlate: "Slate",
       defaults: ["Drink a glass of water", "Stretch for 5 minutes", "Plan the top 3 things for today",
                  "Take a short walk", "Eat lunch away from screens",
@@ -1011,6 +1036,9 @@
       clockHint: "Change l'affichage des heures de rappel. Le sélecteur d'heure suit le réglage de votre téléphone.",
       tzLabel: "Fuseau horaire",
       toDark: "Passer en mode sombre", toLight: "Passer en mode clair",
+      feedbackSection: "Son et vibration", sound: "Son", vibration: "Vibration",
+      on: "Activé", off: "Désactivé",
+      feedbackHint: "Se déclenche quand vous cochez une routine, avec un carillon plus long une fois la journée terminée. La vibration dépend de votre téléphone.",
       cFir: "Sapin", cOcean: "Océan", cPlum: "Prune", cClay: "Argile", cSlate: "Ardoise",
       defaults: ["Boire un verre d'eau", "S'étirer pendant 5 minutes", "Planifier les 3 priorités du jour",
                  "Faire une courte marche", "Déjeuner loin des écrans",
@@ -1054,6 +1082,9 @@
       clockHint: "Cambia cómo se muestran las horas. El selector de hora sigue el ajuste de tu teléfono.",
       tzLabel: "Zona horaria",
       toDark: "Cambiar a modo oscuro", toLight: "Cambiar a modo claro",
+      feedbackSection: "Sonido y vibración", sound: "Sonido", vibration: "Vibración",
+      on: "Activado", off: "Desactivado",
+      feedbackHint: "Suena al marcar una rutina, con un tono más largo cuando el día está completo. La vibración depende de tu teléfono.",
       cFir: "Abeto", cOcean: "Océano", cPlum: "Ciruela", cClay: "Arcilla", cSlate: "Pizarra",
       defaults: ["Beber un vaso de agua", "Estirar durante 5 minutos", "Planear las 3 cosas del día",
                  "Dar un paseo corto", "Comer lejos de las pantallas",
@@ -1097,6 +1128,9 @@
       clockHint: "Muda como os horários aparecem. O seletor de hora segue a configuração do seu telefone.",
       tzLabel: "Fuso horário",
       toDark: "Mudar para modo escuro", toLight: "Mudar para modo claro",
+      feedbackSection: "Som e vibração", sound: "Som", vibration: "Vibração",
+      on: "Ligado", off: "Desligado",
+      feedbackHint: "Toca ao marcar uma rotina, com um som mais longo quando o dia termina. A vibração depende do seu telefone.",
       cFir: "Pinheiro", cOcean: "Oceano", cPlum: "Ameixa", cClay: "Argila", cSlate: "Ardósia",
       defaults: ["Beber um copo de água", "Alongar por 5 minutos", "Planejar as 3 prioridades do dia",
                  "Dar uma caminhada curta", "Almoçar longe das telas",
@@ -1140,6 +1174,9 @@
       clockHint: "Ɛsesa sɛdeɛ berɛ kyerɛ. Time picker no di wo fon no nhyehyɛeɛ akyi.",
       tzLabel: "Berɛ mpɔtam",
       toDark: "Dane kɔ sum mu", toLight: "Dane kɔ hann mu",
+      feedbackSection: "Ɛnne ne Nwosoɔ", sound: "Ɛnne", vibration: "Nwosoɔ",
+      on: "Sɔ", off: "Dum",
+      feedbackHint: "Ɛbɔ bere a wohyɛ routine agyiraeɛ, na ɛda no wie a, ɛbɔ tenten. Nwosoɔ gyina wo fon so.",
       cFir: "Dua", cOcean: "Ɛpo", cPlum: "Aduaba", cClay: "Dɔteɛ", cSlate: "Ɔbo",
       defaults: ["Nom nsuo kuruwa baako", "Twe wo nipadua simma 5", "Hyehyɛ nneɛma 3 a ɛho hia ɛnnɛ",
                  "Nante kakra", "Di aduane a wonhwɛ screen",
@@ -1149,7 +1186,7 @@
 
   var STARTER_SLOTS = ["morning", "morning", "morning", "afternoon", "afternoon", "evening", "evening"];
 
-  var settings = { theme: "auto", accent: "fir", lang: "en", timeFormat: "auto" };
+  var settings = { theme: "auto", accent: "fir", lang: "en", timeFormat: "auto", sound: "on", vibrate: "on" };
 
   // Start in the phone's language when we speak it, otherwise English.
   function detectLang() {
@@ -1318,7 +1355,9 @@
     timePick: document.getElementById("timePick"),
     tzValue: document.getElementById("tzValue"),
     themeColor: document.getElementById("themeColor"),
-    themeToggle: document.getElementById("themeToggle")
+    themeToggle: document.getElementById("themeToggle"),
+    soundPick: document.getElementById("soundPick"),
+    vibratePick: document.getElementById("vibratePick")
   };
 
   var pickedSlot = "morning";
@@ -1514,6 +1553,66 @@
     });
   }
 
+  // ---------- Check-off feedback ----------
+  // Tones are synthesised rather than loaded, so feedback still works offline
+  // and the app ships no audio files.
+  var audioCtx = null;
+
+  function audio() {
+    if (settings.sound !== "on") return null;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) audioCtx = new AC();
+      // Mobile browsers start the context suspended until a user gesture.
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    } catch (e) { return null; }
+  }
+
+  function tone(ctx, freq, delay, dur, peak) {
+    var at = ctx.currentTime + delay;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freq, at);
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.linearRampToValueAtTime(peak, at + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(at);
+    osc.stop(at + dur + 0.03);
+  }
+
+  function buzz(pattern) {
+    if (settings.vibrate !== "on" || !navigator.vibrate) return;
+    try { navigator.vibrate(pattern); } catch (e) {}
+  }
+
+  // Checking off rises a fifth; unchecking is one quieter, lower note.
+  function feedbackCheck() {
+    var ctx = audio();
+    if (ctx) { tone(ctx, 784, 0, 0.12, 0.15); tone(ctx, 1175, 0.055, 0.15, 0.11); }
+    buzz(18);
+  }
+
+  function feedbackUncheck() {
+    var ctx = audio();
+    if (ctx) tone(ctx, 392, 0, 0.10, 0.07);
+    buzz(10);
+  }
+
+  function feedbackComplete() {
+    var ctx = audio();
+    if (ctx) {
+      tone(ctx, 659, 0, 0.16, 0.13);
+      tone(ctx, 784, 0.09, 0.16, 0.13);
+      tone(ctx, 1047, 0.18, 0.34, 0.15);
+    }
+    buzz([28, 45, 28, 45, 70]);
+  }
+
   var toastTimer = null;
   function showToast(msg) {
     el.toast.textContent = msg;
@@ -1553,9 +1652,14 @@
 
   function toggle(id) {
     var day = today();
+    var wasComplete = day.completedAll;
     var i = day.done.indexOf(id);
-    if (i === -1) day.done.push(id); else day.done.splice(i, 1);
-    render();
+    var checking = i === -1;
+    if (checking) day.done.push(id); else day.done.splice(i, 1);
+    render();   // recomputes completedAll
+    if (!checking) feedbackUncheck();
+    else if (day.completedAll && !wasComplete) feedbackComplete();
+    else feedbackCheck();
   }
 
   function removeRoutine(id) {
@@ -1853,6 +1957,8 @@
     el.editToggle.textContent = t(document.body.classList.contains("editing") ? "doneEditing" : "editRoutines");
     el.langPick.value = settings.lang;
     syncSeg(el.timePick, settings.timeFormat);
+    syncSeg(el.soundPick, settings.sound);
+    syncSeg(el.vibratePick, settings.vibrate);
     applyAppearance();   // re-labels the theme toggle in the new language
     try {
       el.tzValue.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "—";
@@ -1898,6 +2004,25 @@
     syncSeg(el.timePick, settings.timeFormat);
     save();
     render();
+  });
+
+  // Switching either one on demonstrates it straight away.
+  el.soundPick.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-val]");
+    if (!b) return;
+    settings.sound = b.dataset.val;
+    syncSeg(el.soundPick, settings.sound);
+    save();
+    if (settings.sound === "on") { var ctx = audio(); if (ctx) tone(ctx, 784, 0, 0.12, 0.15); }
+  });
+
+  el.vibratePick.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-val]");
+    if (!b) return;
+    settings.vibrate = b.dataset.val;
+    syncSeg(el.vibratePick, settings.vibrate);
+    save();
+    if (settings.vibrate === "on") buzz(18);
   });
 
   el.langPick.addEventListener("change", function () {
