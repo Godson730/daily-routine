@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Daily Routine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F5F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141A15" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root {
+    --ground: #F3F5F1;
+    --card: #FFFFFF;
+    --ink: #1E2A21;
+    --ink-soft: #5C6A5F;
+    --line: #DDE4DC;
+    --accent: #3B7A57;
+    --accent-soft: #E3EEE7;
+    --morning: #3B7A57;
+    --afternoon: #DD9A33;
+    --evening: #5C6BA4;
+    --danger: #B4533A;
+    --ring-track: #E2E8E1;
+    --shadow: 0 1px 3px rgba(30, 42, 33, 0.07), 0 6px 18px rgba(30, 42, 33, 0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #141A15;
+      --card: #1D2620;
+      --ink: #E7ECE6;
+      --ink-soft: #93A296;
+      --line: #2C372F;
+      --accent: #5FA97F;
+      --accent-soft: #23342A;
+      --morning: #5FA97F;
+      --afternoon: #E0AA55;
+      --evening: #8794C9;
+      --danger: #D07A63;
+      --ring-track: #2C372F;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #141A15;
+    --card: #1D2620;
+    --ink: #E7ECE6;
+    --ink-soft: #93A296;
+    --line: #2C372F;
+    --accent: #5FA97F;
+    --accent-soft: #23342A;
+    --morning: #5FA97F;
+    --afternoon: #E0AA55;
+    --evening: #8794C9;
+    --danger: #D07A63;
+    --ring-track: #2C372F;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.25);
+  }
+  :root[data-theme="light"] {
+    --ground: #F3F5F1;
+    --card: #FFFFFF;
+    --ink: #1E2A21;
+    --ink-soft: #5C6A5F;
+    --line: #DDE4DC;
+    --accent: #3B7A57;
+    --accent-soft: #E3EEE7;
+    --morning: #3B7A57;
+    --afternoon: #DD9A33;
+    --evening: #5C6BA4;
+    --danger: #B4533A;
+    --ring-track: #E2E8E1;
+    --shadow: 0 1px 3px rgba(30, 42, 33, 0.07), 0 6px 18px rgba(30, 42, 33, 0.05);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .app {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 18px calc(110px + env(safe-area-inset-bottom));
+  }
+
+  /* ---------- Header ---------- */
+  header.day {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--ground);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 0 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .day-text h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.7rem;
+    margin: 0 0 3px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .day-text .date {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+  .streak {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--afternoon);
+    font-variant-numeric: tabular-nums;
+  }
+  .streak svg { flex: none; }
+  .streak[hidden] { display: none; }
+
+  .ring-wrap { position: relative; flex: none; width: 74px; height: 74px; }
+  .ring-wrap svg { transform: rotate(-90deg); display: block; }
+  .ring-track { stroke: var(--ring-track); }
+  .ring-fill {
+    stroke: var(--accent);
+    transition: stroke-dashoffset 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ring-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .ring-label .count { font-size: 1.05rem; font-weight: 700; line-height: 1; }
+  .ring-label .of { font-size: 0.62rem; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ---------- Sections ---------- */
+  .section { margin-top: 26px; }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .section-head .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .section-head h2 {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .section[data-slot="morning"] .dot { background: var(--morning); }
+  .section[data-slot="afternoon"] .dot { background: var(--afternoon); }
+  .section[data-slot="evening"] .dot { background: var(--evening); }
+
+  .empty-slot {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    padding: 6px 2px;
+  }
+
+  ul.tasks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  li.task {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+  }
+  .task button.check {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    padding: 0;
+    transition: background 0.18s, border-color 0.18s, transform 0.12s;
+  }
+  .task button.check:active { transform: scale(0.88); }
+  .task button.check svg { opacity: 0; transform: scale(0.5); transition: opacity 0.18s, transform 0.18s; }
+  .task.done button.check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .task.done button.check svg { opacity: 1; transform: scale(1); }
+  .task .name {
+    flex: 1;
+    font-size: 0.98rem;
+    line-height: 1.35;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    transition: color 0.18s;
+  }
+  .task.done .name { color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--line); }
+  .time-chip {
+    flex: none;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--ground);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .task.due:not(.done) .time-chip { color: var(--afternoon); border-color: var(--afternoon); }
+  .task input.time-edit {
+    flex: none;
+    display: none;
+    border: 1px solid var(--line);
+    background: var(--ground);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 4px 6px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    width: 92px;
+  }
+  body.editing .task input.time-edit { display: block; }
+  body.editing .task .time-chip { display: none; }
+  .task .remove {
+    flex: none;
+    display: none;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--danger);
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .task .remove:hover { background: var(--accent-soft); }
+  body.editing .task .remove { display: block; }
+
+  button.check:focus-visible, .remove:focus-visible, .edit-toggle:focus-visible,
+  .add-form input:focus-visible, .add-form button:focus-visible, .slot-pick button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Weekly stats ---------- */
+  .week {
+    margin-top: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 14px 16px 12px;
+  }
+  .week-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .week-head h2 {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .week-head .week-pct {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .week-bars {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    align-items: end;
+  }
+  .week-day { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .week-bar {
+    width: 100%;
+    max-width: 26px;
+    height: 52px;
+    border-radius: 7px;
+    background: var(--ring-track);
+    position: relative;
+    overflow: hidden;
+  }
+  .week-bar .fill {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: var(--accent);
+    opacity: 0.55;
+    border-radius: 0;
+    transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .week-day.perfect .week-bar .fill { opacity: 1; }
+  .week-day .letter {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+  .week-day.today .letter { color: var(--accent); font-weight: 800; }
+  .week-day .mini-count {
+    position: absolute;
+    left: 0; right: 0; top: 4px;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .week-summary {
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .week-summary strong { color: var(--ink); font-weight: 700; }
+
+  .notify-banner {
+    display: none;
+    margin-top: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 13px 14px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.45;
+  }
+  .notify-banner.show { display: block; }
+  .notify-banner strong { color: var(--ink); }
+  .notify-banner .banner-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .notify-banner button {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .notify-banner .enable { background: var(--accent); color: #fff; }
+  .notify-banner .later { background: transparent; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+
+  .toast {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translate(-50%, -130%);
+    z-index: 20;
+    max-width: min(92vw, 400px);
+    background: var(--ink);
+    color: var(--ground);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  .toast.show { transform: translate(-50%, 0); }
+
+  .all-done {
+    margin-top: 26px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 0.92rem;
+    color: var(--ink);
+    display: none;
+  }
+  .all-done.show { display: block; }
+  .all-done strong { color: var(--accent); }
+
+  .edit-toggle {
+    margin-top: 22px;
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 2px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  body.editing .edit-toggle { color: var(--accent); }
+
+  /* ---------- Add bar ---------- */
+  .add-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+  .add-inner { max-width: 404px; margin: 0 auto; display: flex; flex-direction: column; gap: 9px; }
+  .slot-pick { display: flex; gap: 6px; }
+  .slot-pick button {
+    flex: 1;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 6px 0;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .slot-pick button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .add-form { display: flex; gap: 8px; }
+  .add-form input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--line);
+    background: var(--ground);
+    color: var(--ink);
+    border-radius: 12px;
+    padding: 11px 13px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .add-form input::placeholder { color: var(--ink-soft); }
+  .add-form input[type="time"] {
+    flex: none;
+    width: 108px;
+    padding: 11px 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .add-form button {
+    flex: none;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 12px;
+    padding: 0 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .add-form button:active { transform: scale(0.97); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="day">
+    <div class="day-text">
+      <h1 id="greeting">Good morning</h1>
+      <p class="date" id="dateLine"></p>
+      <span class="streak" id="streakBadge" hidden>
+        <svg width="13" height="15" viewBox="0 0 13 15" fill="currentColor" aria-hidden="true">
+          <path d="M6.5 0C7.6 2.4 10.9 4.3 10.9 8.1c0 2.9-2 5.4-4.4 5.4S2.1 11 2.1 8.1C2.1 6 3.2 4.6 4.2 3.4c.2 1 .7 1.8 1.5 2.3C5.5 3.6 5.8 1.6 6.5 0z"/>
+        </svg>
+        <span id="streakText"></span>
+      </span>
+    </div>
+    <div class="ring-wrap" role="img" id="ringWrap" aria-label="Progress">
+      <svg width="74" height="74" viewBox="0 0 74 74">
+        <circle class="ring-track" cx="37" cy="37" r="31" fill="none" stroke-width="6"/>
+        <circle class="ring-fill" id="ringFill" cx="37" cy="37" r="31" fill="none" stroke-width="6"
+                stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8"/>
+      </svg>
+      <div class="ring-label">
+        <div class="count" id="doneCount">0</div>
+        <div class="of" id="totalCount">of 0</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="week" aria-label="This week's progress">
+    <div class="week-head">
+      <h2>This week</h2>
+      <span class="week-pct" id="weekPct"></span>
+    </div>
+    <div class="week-bars" id="weekBars"></div>
+    <p class="week-summary" id="weekSummary"></p>
+  </section>
+
+  <div class="notify-banner" id="notifyBanner">
+    <strong>Turn on reminders?</strong> You'll get a notification when a timed routine comes due. Reminders work while this app is open in your browser.
+    <div class="banner-actions">
+      <button type="button" class="enable" id="enableNotify">Enable reminders</button>
+      <button type="button" class="later" id="dismissNotify">Not now</button>
+    </div>
+  </div>
+
+  <div class="all-done" id="allDone"><strong>Day complete.</strong> Every routine checked off — see you tomorrow.</div>
+
+  <main id="sections"></main>
+
+  <button class="edit-toggle" id="editToggle" type="button">Edit routines</button>
+</div>
+
+<div class="add-bar">
+  <div class="add-inner">
+    <div class="slot-pick" id="slotPick" role="group" aria-label="Time of day">
+      <button type="button" data-slot="morning" aria-pressed="true">Morning</button>
+      <button type="button" data-slot="afternoon" aria-pressed="false">Afternoon</button>
+      <button type="button" data-slot="evening" aria-pressed="false">Evening</button>
+    </div>
+    <form class="add-form" id="addForm">
+      <input id="addInput" type="text" placeholder="Add a routine…" maxlength="80" autocomplete="off">
+      <input id="addTime" type="time" aria-label="Reminder time (optional)">
+      <button type="submit">Add</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var STORE_KEY = "dailyRoutine.v1";
+  var SLOTS = ["morning", "afternoon", "evening"];
+  var SLOT_LABELS = { morning: "Morning", afternoon: "Afternoon", evening: "Evening" };
+
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return {
+      routines: [
+        { id: "r1", name: "Drink a glass of water", slot: "morning", time: "" },
+        { id: "r2", name: "Stretch for 5 minutes", slot: "morning", time: "" },
+        { id: "r3", name: "Plan the top 3 things for today", slot: "morning", time: "" },
+        { id: "r4", name: "Take a short walk", slot: "afternoon", time: "" },
+        { id: "r5", name: "Eat lunch away from screens", slot: "afternoon", time: "" },
+        { id: "r6", name: "Review what got done today", slot: "evening", time: "" },
+        { id: "r7", name: "No phone 30 minutes before bed", slot: "evening", time: "" }
+      ],
+      days: {},      // { "2026-08-02": { done: ["r1"], completedAll: false, notified: [] } }
+      askedNotify: false
+    };
+  }
+
+  var state = load();
+
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function today() {
+    var key = todayKey();
+    if (!state.days[key]) state.days[key] = { done: [], completedAll: false, notified: [] };
+    if (!state.days[key].notified) state.days[key].notified = [];
+    return state.days[key];
+  }
+
+  function formatTime(hhmm) {
+    var parts = hhmm.split(":");
+    var d = new Date();
+    d.setHours(Number(parts[0]), Number(parts[1]), 0, 0);
+    return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  }
+
+  // Streak: consecutive days (ending today or yesterday) where all routines were completed.
+  function streak() {
+    var count = 0;
+    var d = new Date();
+    var key = todayKey();
+    var t = state.days[key];
+    if (!(t && t.completedAll)) d.setDate(d.getDate() - 1); // today not done yet — count back from yesterday
+    for (;;) {
+      var k = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      var rec = state.days[k];
+      if (rec && rec.completedAll) { count++; d.setDate(d.getDate() - 1); }
+      else break;
+    }
+    return count;
+  }
+
+  function greetingText() {
+    var h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 18) return "Good afternoon";
+    return "Good evening";
+  }
+
+  var el = {
+    greeting: document.getElementById("greeting"),
+    dateLine: document.getElementById("dateLine"),
+    sections: document.getElementById("sections"),
+    ringFill: document.getElementById("ringFill"),
+    ringWrap: document.getElementById("ringWrap"),
+    doneCount: document.getElementById("doneCount"),
+    totalCount: document.getElementById("totalCount"),
+    streakBadge: document.getElementById("streakBadge"),
+    streakText: document.getElementById("streakText"),
+    allDone: document.getElementById("allDone"),
+    editToggle: document.getElementById("editToggle"),
+    slotPick: document.getElementById("slotPick"),
+    addForm: document.getElementById("addForm"),
+    addInput: document.getElementById("addInput"),
+    addTime: document.getElementById("addTime"),
+    weekPct: document.getElementById("weekPct"),
+    weekBars: document.getElementById("weekBars"),
+    weekSummary: document.getElementById("weekSummary"),
+    notifyBanner: document.getElementById("notifyBanner"),
+    enableNotify: document.getElementById("enableNotify"),
+    dismissNotify: document.getElementById("dismissNotify"),
+    toast: document.getElementById("toast")
+  };
+
+  var pickedSlot = "morning";
+  var CIRC = 2 * Math.PI * 31;
+
+  function render() {
+    var day = today();
+    el.greeting.textContent = greetingText();
+    el.dateLine.textContent = new Date().toLocaleDateString(undefined, {
+      weekday: "long", month: "long", day: "numeric"
+    });
+
+    // sections
+    el.sections.innerHTML = "";
+    SLOTS.forEach(function (slot) {
+      var items = state.routines.filter(function (r) { return r.slot === slot; });
+      // Timed routines first, sorted by time; untimed keep their added order.
+      items.sort(function (a, b) {
+        if (a.time && b.time) return a.time < b.time ? -1 : a.time > b.time ? 1 : 0;
+        if (a.time) return -1;
+        if (b.time) return 1;
+        return 0;
+      });
+      var sec = document.createElement("section");
+      sec.className = "section";
+      sec.dataset.slot = slot;
+
+      var head = document.createElement("div");
+      head.className = "section-head";
+      head.innerHTML = '<span class="dot"></span>';
+      var h2 = document.createElement("h2");
+      h2.textContent = SLOT_LABELS[slot];
+      head.appendChild(h2);
+      sec.appendChild(head);
+
+      if (!items.length) {
+        var p = document.createElement("p");
+        p.className = "empty-slot";
+        p.textContent = "Nothing here yet — add one below.";
+        sec.appendChild(p);
+      } else {
+        var ul = document.createElement("ul");
+        ul.className = "tasks";
+        items.forEach(function (r) {
+          var isDone = day.done.indexOf(r.id) !== -1;
+          var li = document.createElement("li");
+          li.className = "task" + (isDone ? " done" : "");
+
+          var check = document.createElement("button");
+          check.className = "check";
+          check.type = "button";
+          check.setAttribute("aria-pressed", String(isDone));
+          check.setAttribute("aria-label", (isDone ? "Uncheck " : "Check off ") + r.name);
+          check.innerHTML = '<svg width="13" height="11" viewBox="0 0 13 11" fill="none" aria-hidden="true"><path d="M1.5 5.5L4.8 8.8L11.5 1.8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          check.addEventListener("click", function () { toggle(r.id); });
+          li.appendChild(check);
+
+          var name = document.createElement("span");
+          name.className = "name";
+          name.textContent = r.name;
+          li.appendChild(name);
+
+          if (r.time) {
+            var now = new Date();
+            var nowHM = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+            if (r.time <= nowHM && !isDone) li.classList.add("due");
+            var chip = document.createElement("span");
+            chip.className = "time-chip";
+            chip.textContent = formatTime(r.time);
+            li.appendChild(chip);
+          }
+
+          var timeEdit = document.createElement("input");
+          timeEdit.type = "time";
+          timeEdit.className = "time-edit";
+          timeEdit.value = r.time || "";
+          timeEdit.setAttribute("aria-label", "Reminder time for " + r.name);
+          timeEdit.addEventListener("change", function () {
+            r.time = timeEdit.value;
+            render();
+          });
+          li.appendChild(timeEdit);
+
+          var rm = document.createElement("button");
+          rm.className = "remove";
+          rm.type = "button";
+          rm.textContent = "×";
+          rm.setAttribute("aria-label", "Delete " + r.name);
+          rm.addEventListener("click", function () { removeRoutine(r.id); });
+          li.appendChild(rm);
+
+          ul.appendChild(li);
+        });
+        sec.appendChild(ul);
+      }
+      el.sections.appendChild(sec);
+    });
+
+    // progress ring
+    var total = state.routines.length;
+    var done = day.done.filter(function (id) {
+      return state.routines.some(function (r) { return r.id === id; });
+    }).length;
+    el.doneCount.textContent = String(done);
+    el.totalCount.textContent = "of " + total;
+    var frac = total ? done / total : 0;
+    el.ringFill.setAttribute("stroke-dashoffset", String(CIRC * (1 - frac)));
+    el.ringWrap.setAttribute("aria-label", done + " of " + total + " routines done");
+
+    // day-complete state
+    day.completedAll = total > 0 && done === total;
+    el.allDone.classList.toggle("show", day.completedAll);
+
+    var s = streak();
+    el.streakBadge.hidden = s === 0;
+    el.streakText.textContent = s + (s === 1 ? " day streak" : " day streak");
+
+    renderWeek();
+
+    // Offer to turn on notifications once any routine has a reminder time.
+    var hasTimed = state.routines.some(function (r) { return r.time; });
+    var canAsk = typeof Notification !== "undefined" && Notification.permission === "default";
+    el.notifyBanner.classList.toggle("show", hasTimed && canAsk && !state.askedNotify);
+
+    save();
+  }
+
+  // Last 7 days ending today: one bar per day, filled by share of routines done.
+  function renderWeek() {
+    var total = state.routines.length;
+    var todayK = todayKey();
+    var weekDone = 0;
+    var perfectDays = 0;
+    el.weekBars.innerHTML = "";
+
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date();
+      d.setDate(d.getDate() - i);
+      var key = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+      var rec = state.days[key];
+      var done = rec ? rec.done.filter(function (id) {
+        return state.routines.some(function (r) { return r.id === id; });
+      }).length : 0;
+      var frac = total ? Math.min(1, done / total) : 0;
+      var perfect = !!(rec && rec.completedAll);
+      weekDone += done;
+      if (perfect) perfectDays++;
+
+      var col = document.createElement("div");
+      col.className = "week-day" + (perfect ? " perfect" : "") + (key === todayK ? " today" : "");
+
+      var bar = document.createElement("div");
+      bar.className = "week-bar";
+      var label = d.toLocaleDateString(undefined, { weekday: "long" }) + ": " + done + " of " + total + " done";
+      bar.setAttribute("role", "img");
+      bar.setAttribute("aria-label", label);
+      var fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.height = Math.round(frac * 100) + "%";
+      bar.appendChild(fill);
+      if (done > 0) {
+        var mini = document.createElement("span");
+        mini.className = "mini-count";
+        mini.textContent = String(done);
+        bar.appendChild(mini);
+      }
+      col.appendChild(bar);
+
+      var letter = document.createElement("span");
+      letter.className = "letter";
+      letter.textContent = d.toLocaleDateString(undefined, { weekday: "short" }).slice(0, 2);
+      letter.setAttribute("aria-hidden", "true");
+      col.appendChild(letter);
+
+      el.weekBars.appendChild(col);
+    }
+
+    var weekTotal = total * 7;
+    var pct = weekTotal ? Math.round((weekDone / weekTotal) * 100) : 0;
+    el.weekPct.textContent = pct + "%";
+    el.weekSummary.innerHTML = "";
+    var s1 = document.createElement("strong");
+    s1.textContent = String(weekDone);
+    el.weekSummary.appendChild(s1);
+    el.weekSummary.appendChild(document.createTextNode(
+      (weekDone === 1 ? " routine" : " routines") + " checked off · "
+    ));
+    var s2 = document.createElement("strong");
+    s2.textContent = String(perfectDays);
+    el.weekSummary.appendChild(s2);
+    el.weekSummary.appendChild(document.createTextNode(
+      perfectDays === 1 ? " perfect day" : " perfect days"
+    ));
+  }
+
+  var toastTimer = null;
+  function showToast(msg) {
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.toast.classList.remove("show"); }, 6000);
+  }
+
+  function fireReminder(r) {
+    var msg = "Time for: " + r.name;
+    if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+      try { new Notification("Daily Routine", { body: r.name, tag: "routine-" + r.id }); } catch (e) {}
+    }
+    showToast(msg);
+    if (navigator.vibrate) { try { navigator.vibrate([180, 80, 180]); } catch (e) {} }
+  }
+
+  // Check once per minute; fire each timed, unfinished routine at its set time.
+  var lastCheckedMinute = "";
+  function checkReminders() {
+    var now = new Date();
+    var nowHM = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+    if (nowHM === lastCheckedMinute) return;
+    lastCheckedMinute = nowHM;
+    var day = today();
+    var fired = false;
+    state.routines.forEach(function (r) {
+      if (!r.time || r.time !== nowHM) return;
+      if (day.done.indexOf(r.id) !== -1) return;
+      if (day.notified.indexOf(r.id) !== -1) return;
+      day.notified.push(r.id);
+      fireReminder(r);
+      fired = true;
+    });
+    if (fired) render();
+  }
+
+  function toggle(id) {
+    var day = today();
+    var i = day.done.indexOf(id);
+    if (i === -1) day.done.push(id); else day.done.splice(i, 1);
+    render();
+  }
+
+  function removeRoutine(id) {
+    state.routines = state.routines.filter(function (r) { return r.id !== id; });
+    render();
+  }
+
+  el.editToggle.addEventListener("click", function () {
+    var editing = document.body.classList.toggle("editing");
+    el.editToggle.textContent = editing ? "Done editing" : "Edit routines";
+  });
+
+  el.slotPick.addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-slot]");
+    if (!btn) return;
+    pickedSlot = btn.dataset.slot;
+    el.slotPick.querySelectorAll("button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
+  });
+
+  el.addForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = el.addInput.value.trim();
+    if (!name) return;
+    state.routines.push({ id: "r" + Date.now().toString(36), name: name, slot: pickedSlot, time: el.addTime.value || "" });
+    el.addInput.value = "";
+    el.addTime.value = "";
+    render();
+  });
+
+  el.enableNotify.addEventListener("click", function () {
+    state.askedNotify = true;
+    if (typeof Notification !== "undefined") {
+      Notification.requestPermission().then(function (perm) {
+        showToast(perm === "granted"
+          ? "Reminders on — you'll be notified while the app is open."
+          : "Notifications blocked — you'll still see reminders inside the app.");
+        render();
+      });
+    }
+    render();
+  });
+
+  el.dismissNotify.addEventListener("click", function () {
+    state.askedNotify = true;
+    render();
+  });
+
+  // Roll over at midnight and check reminders while the app is open.
+  var openedOn = todayKey();
+  setInterval(function () {
+    if (todayKey() !== openedOn) { openedOn = todayKey(); render(); }
+    checkReminders();
+  }, 20000);
+  checkReminders();
+
+  render();
+})();
+
+// Install as an app: register the service worker for offline use.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
