@@ -520,6 +520,15 @@
   }
   .gear:hover { background: var(--accent-soft); color: var(--accent); }
   .gear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* Taps should always resolve to the button, never to the icon inside it. */
+  .gear svg, .sheet-back svg { pointer-events: none; }
+  .brand-actions { display: flex; align-items: center; gap: 2px; }
+
+  /* The icon shows what a tap will give you: a moon while light, a sun while dark. */
+  .theme-toggle { margin-right: 0; }
+  .theme-toggle .icon-sun, .theme-toggle .icon-moon { display: none; }
+  .theme-toggle[data-showing="light"] .icon-moon { display: block; }
+  .theme-toggle[data-showing="dark"] .icon-sun { display: block; }
 
   /* ---------- Settings sheet ---------- */
   .sheet {
@@ -739,12 +748,23 @@
 <div class="app">
   <div class="brandbar">
     <span class="brand">JA Routine</span>
-    <button class="gear" id="openSettings" type="button" aria-label="Settings">
+    <div class="brand-actions">
+      <button class="gear theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.5 14.6A8.5 8.5 0 1 1 9.4 3.5a7 7 0 0 0 11.1 11.1z"/>
+        </svg>
+        <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.4v2.1M12 19.5v2.1M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.4 12h2.1M19.5 12h2.1M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/>
+        </svg>
+      </button>
+      <button class="gear" id="openSettings" type="button" aria-label="Settings">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
         <circle cx="12" cy="12" r="3.1"/>
         <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>
-      </svg>
-    </button>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <header class="day">
@@ -947,6 +967,7 @@
       timeSection: "Time", clock: "Clock", hour12: "12-hour", hour24: "24-hour",
       clockHint: "Changes how reminder times are shown. The time picker itself follows your phone's own setting.",
       tzLabel: "Time zone",
+      toDark: "Switch to dark mode", toLight: "Switch to light mode",
       cFir: "Fir", cOcean: "Ocean", cPlum: "Plum", cClay: "Clay", cSlate: "Slate",
       defaults: ["Drink a glass of water", "Stretch for 5 minutes", "Plan the top 3 things for today",
                  "Take a short walk", "Eat lunch away from screens",
@@ -989,6 +1010,7 @@
       timeSection: "Heure", clock: "Format", hour12: "12 h", hour24: "24 h",
       clockHint: "Change l'affichage des heures de rappel. Le sélecteur d'heure suit le réglage de votre téléphone.",
       tzLabel: "Fuseau horaire",
+      toDark: "Passer en mode sombre", toLight: "Passer en mode clair",
       cFir: "Sapin", cOcean: "Océan", cPlum: "Prune", cClay: "Argile", cSlate: "Ardoise",
       defaults: ["Boire un verre d'eau", "S'étirer pendant 5 minutes", "Planifier les 3 priorités du jour",
                  "Faire une courte marche", "Déjeuner loin des écrans",
@@ -1031,6 +1053,7 @@
       timeSection: "Hora", clock: "Formato", hour12: "12 horas", hour24: "24 horas",
       clockHint: "Cambia cómo se muestran las horas. El selector de hora sigue el ajuste de tu teléfono.",
       tzLabel: "Zona horaria",
+      toDark: "Cambiar a modo oscuro", toLight: "Cambiar a modo claro",
       cFir: "Abeto", cOcean: "Océano", cPlum: "Ciruela", cClay: "Arcilla", cSlate: "Pizarra",
       defaults: ["Beber un vaso de agua", "Estirar durante 5 minutos", "Planear las 3 cosas del día",
                  "Dar un paseo corto", "Comer lejos de las pantallas",
@@ -1073,6 +1096,7 @@
       timeSection: "Hora", clock: "Formato", hour12: "12 horas", hour24: "24 horas",
       clockHint: "Muda como os horários aparecem. O seletor de hora segue a configuração do seu telefone.",
       tzLabel: "Fuso horário",
+      toDark: "Mudar para modo escuro", toLight: "Mudar para modo claro",
       cFir: "Pinheiro", cOcean: "Oceano", cPlum: "Ameixa", cClay: "Argila", cSlate: "Ardósia",
       defaults: ["Beber um copo de água", "Alongar por 5 minutos", "Planejar as 3 prioridades do dia",
                  "Dar uma caminhada curta", "Almoçar longe das telas",
@@ -1115,6 +1139,7 @@
       timeSection: "Berɛ", clock: "Dɔn", hour12: "Nnɔnhwerew 12", hour24: "Nnɔnhwerew 24",
       clockHint: "Ɛsesa sɛdeɛ berɛ kyerɛ. Time picker no di wo fon no nhyehyɛeɛ akyi.",
       tzLabel: "Berɛ mpɔtam",
+      toDark: "Dane kɔ sum mu", toLight: "Dane kɔ hann mu",
       cFir: "Dua", cOcean: "Ɛpo", cPlum: "Aduaba", cClay: "Dɔteɛ", cSlate: "Ɔbo",
       defaults: ["Nom nsuo kuruwa baako", "Twe wo nipadua simma 5", "Hyehyɛ nneɛma 3 a ɛho hia ɛnnɛ",
                  "Nante kakra", "Di aduane a wonhwɛ screen",
@@ -1292,7 +1317,8 @@
     langPick: document.getElementById("langPick"),
     timePick: document.getElementById("timePick"),
     tzValue: document.getElementById("tzValue"),
-    themeColor: document.getElementById("themeColor")
+    themeColor: document.getElementById("themeColor"),
+    themeToggle: document.getElementById("themeToggle")
   };
 
   var pickedSlot = "morning";
@@ -1740,6 +1766,14 @@
     return ACCENTS.filter(function (a) { return a.id === settings.accent; })[0] || ACCENTS[0];
   }
 
+  // What the screen is actually showing right now, which is what the main-screen
+  // toggle flips — "auto" has to be resolved against the system preference first.
+  function effectiveTheme() {
+    if (settings.theme === "light" || settings.theme === "dark") return settings.theme;
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? "dark" : "light";
+  }
+
   function applyAppearance() {
     var root = document.documentElement;
     if (settings.theme === "auto") root.removeAttribute("data-theme");
@@ -1754,6 +1788,13 @@
       var bg = getComputedStyle(document.body).backgroundColor;
       if (bg) el.themeColor.setAttribute("content", bg);
     }
+
+    var showing = effectiveTheme();
+    el.themeToggle.dataset.showing = showing;
+    var label = t(showing === "dark" ? "toLight" : "toDark");
+    el.themeToggle.setAttribute("aria-label", label);
+    el.themeToggle.title = label;
+
     syncSeg(el.themePick, settings.theme);
     syncSwatches();
   }
@@ -1812,7 +1853,7 @@
     el.editToggle.textContent = t(document.body.classList.contains("editing") ? "doneEditing" : "editRoutines");
     el.langPick.value = settings.lang;
     syncSeg(el.timePick, settings.timeFormat);
-    syncSeg(el.themePick, settings.theme);
+    applyAppearance();   // re-labels the theme toggle in the new language
     try {
       el.tzValue.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "—";
     } catch (e) { el.tzValue.textContent = "—"; }
@@ -1832,6 +1873,14 @@
       el.sheet.hidden = true;
       el.openSettings.focus();
     }
+  });
+
+  // One tap flips to the opposite of what's on screen, which also means leaving
+  // "Auto" — Settings is where you'd hand control back to the system.
+  el.themeToggle.addEventListener("click", function () {
+    settings.theme = effectiveTheme() === "dark" ? "light" : "dark";
+    applyAppearance();
+    save();
   });
 
   el.themePick.addEventListener("click", function (e) {

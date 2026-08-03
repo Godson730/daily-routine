@@ -1,4 +1,4 @@
-var CACHE = "daily-routine-v4";
+var CACHE = "daily-routine-v5";
 var SHELL = [
   "./",
   "index.html",
