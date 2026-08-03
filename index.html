@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Daily Routine</title>
+<title>JA Routine</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F3F5F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#141A15" media="(prefers-color-scheme: dark)">
@@ -607,7 +607,7 @@
       <h2>Reminders when the app is closed</h2>
       <span class="push-state" id="pushState">Off</span>
     </div>
-    <p class="push-note" id="pushNote">Turn this on to get reminders even when Daily Routine isn't open.</p>
+    <p class="push-note" id="pushNote">Turn this on to get reminders even when JA Routine isn't open.</p>
     <div class="push-actions">
       <button type="button" class="push-btn primary" id="pushEnable">Turn on</button>
       <button type="button" class="push-btn" id="pushCopy" hidden>Copy setup code</button>
@@ -945,7 +945,7 @@
   function fireReminder(r) {
     var msg = "Time for: " + r.name;
     if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-      try { new Notification("Daily Routine", { body: r.name, tag: "routine-" + r.id }); } catch (e) {}
+      try { new Notification("JA Routine", { body: r.name, tag: "routine-" + r.id }); } catch (e) {}
     }
     showToast(msg);
     if (navigator.vibrate) { try { navigator.vibrate([180, 80, 180]); } catch (e) {} }
@@ -1080,7 +1080,7 @@
 
     if (!pushSub) {
       el.pushState.textContent = "Off";
-      el.pushNote.textContent = "Turn this on to get reminders even when Daily Routine isn't open.";
+      el.pushNote.textContent = "Turn this on to get reminders even when JA Routine isn't open.";
       el.pushEnable.hidden = false;
       el.pushEnable.textContent = "Turn on";
       el.pushCopy.hidden = true;

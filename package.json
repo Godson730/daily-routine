@@ -2,7 +2,7 @@
   "name": "daily-routine-reminders",
   "private": true,
   "version": "1.0.0",
-  "description": "Scheduled Web Push sender for the Daily Routine app",
+  "description": "Scheduled Web Push sender for the JA Routine app",
   "scripts": {
     "send": "node send-reminders.js"
   },

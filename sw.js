@@ -1,4 +1,4 @@
-var CACHE = "daily-routine-v2";
+var CACHE = "daily-routine-v3";
 var SHELL = [
   "./",
   "index.html",
@@ -46,7 +46,7 @@ self.addEventListener("fetch", function (e) {
 
 // A reminder arrived from the push service — show it even if the app is closed.
 self.addEventListener("push", function (e) {
-  var data = { title: "Daily Routine", body: "Time for your routine." };
+  var data = { title: "JA Routine", body: "Time for your routine." };
   if (e.data) {
     try { data = Object.assign(data, e.data.json()); }
     catch (err) { data.body = e.data.text(); }

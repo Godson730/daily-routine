@@ -1,6 +1,6 @@
 {
-  "name": "Daily Routine",
-  "short_name": "Routine",
+  "name": "JA Routine",
+  "short_name": "JA Routine",
   "description": "Check off your morning, afternoon, and evening routines, set reminders, and build a streak.",
   "start_url": "./",
   "scope": "./",

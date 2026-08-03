@@ -84,7 +84,7 @@ async function main() {
         jobs.push({
           device,
           payload: {
-            title: "Daily Routine",
+            title: "JA Routine",
             body: r.n,
             tag: "routine-" + r.t + "-" + hm
           },
