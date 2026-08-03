@@ -1,0 +1,46 @@
+name: Send routine reminders
+
+on:
+  schedule:
+    # Every 5 minutes. GitHub runs these on a best-effort basis and can be late,
+    # which send-reminders.js compensates for by replaying the missed minutes.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: reminders
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm install --no-audit --no-fund
+
+      - name: Send due reminders
+        env:
+          VAPID_PUBLIC_KEY: ${{ vars.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: https://godson730.github.io/daily-routine/
+        run: node send-reminders.js
+
+      # Committing the run marker also keeps the repo active, which stops GitHub
+      # from disabling this schedule after 60 days of no activity.
+      - name: Save run state
+        run: |
+          if [ -n "$(git status --porcelain push-state.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add push-state.json
+            git commit -m "Record reminder run [skip ci]"
+            git push
+          fi
