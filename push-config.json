@@ -1,3 +1,21 @@
 {
-  "devices": []
+  "devices": [
+    {
+      "tz": "America/Toronto",
+      "sub": {
+        "endpoint": "https://fcm.googleapis.com/fcm/send/fXdlHR5f43Y:APA91bFfQwn0y-3r8F4zm-vN42lEHaJUt4sXNUrbX64Rwjrc-OZPhTYHRVdrd411OXAyEhFjs8OUSvoXVI2j5b134Xtqc3grueSP-Z-Y7A9fMPlHl5yVPs35Tf9Wxwvy6Kbf5W8YQujv",
+        "expirationTime": null,
+        "keys": {
+          "p256dh": "BJJmbqryWWbxOJ9PhDTTC6XH2FU7asmsIw9fkLzu9hTA_el9lDZGZwqGVth0SIGRCjD30H3-DHBYqJsHDOPLVos",
+          "auth": "DCn-ZMduVuLXldeujyvdCw"
+        }
+      },
+      "routines": [
+        {
+          "n": "Drink a glass of water",
+          "t": "23:42"
+        }
+      ]
+    }
+  ]
 }
